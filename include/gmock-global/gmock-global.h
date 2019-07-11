@@ -908,3 +908,17 @@ private:
 GlobalMockDeleter<GLOBAL_MOCK_TYPE(name)> GLOBAL_MOCK_DELETER_NAME(mock_deleter)(GLOBAL_MOCK_INSTANCE(name));\
 if (!GLOBAL_MOCK_INSTANCE(name) || 0 != strcmp(GLOBAL_MOCK_INSTANCE(name)->m_tag, __FUNCTION__)) GLOBAL_MOCK_INSTANCE(name).reset(new GLOBAL_MOCK_TYPE(name)(__FUNCTION__));\
 EXPECT_CALL(*GLOBAL_MOCK_INSTANCE(name), method)
+
+//
+// Code for setting up mock objects before test (for uninteresting calls)
+//
+
+#define SETUP_GLOBAL_MOCK(name) \
+GLOBAL_MOCK_INSTANCE(name).reset(new GLOBAL_MOCK_TYPE(name)("global_setup"));
+
+//
+// Code for resetting mock objects after test (for uninteresting calls)
+//
+
+#define RESET_GLOBAL_MOCK(name) \
+GLOBAL_MOCK_INSTANCE(name).reset();
